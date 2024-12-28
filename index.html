@@ -3,21 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emploi du temps - Révisions</title>
+    <title>Emploi du Temps - Révisions</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
             margin: 20px 0;
             font-size: 16px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        table, th, td {
-            border: 1px solid black;
+        th, td {
+            padding: 12px;
             text-align: center;
-            padding: 8px;
+            border: 1px solid #ddd;
         }
         th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
         }
     </style>
 </head>
@@ -51,7 +70,78 @@
                 <td>Langues</td>
                 <td>Récapitulatif</td>
             </tr>
-            <!-- Répéter les lignes pour chaque jour -->
+            <tr>
+                <td>Mardi</td>
+                <td>Langues</td>
+                <td>Exercice</td>
+                <td>Pause</td>
+                <td>Lecture</td>
+                <td>Sciences</td>
+                <td>Révision</td>
+                <td>Histoire</td>
+                <td>Mathématiques</td>
+                <td>Langues</td>
+            </tr>
+            <tr>
+                <td>Mercredi</td>
+                <td>Exercice</td>
+                <td>Lecture</td>
+                <td>Sciences</td>
+                <td>Pause</td>
+                <td>Histoire</td>
+                <td>Langues</td>
+                <td>Révision</td>
+                <td>Mathématiques</td>
+                <td>Lecture</td>
+            </tr>
+            <tr>
+                <td>Jeudi</td>
+                <td>Lecture</td>
+                <td>Sciences</td>
+                <td>Mathématiques</td>
+                <td>Pause</td>
+                <td>Exercice</td>
+                <td>Langues</td>
+                <td>Histoire</td>
+                <td>Révision</td>
+                <td>Sciences</td>
+            </tr>
+            <tr>
+                <td>Vendredi</td>
+                <td>Histoire</td>
+                <td>Mathématiques</td>
+                <td>Langues</td>
+                <td>Pause</td>
+                <td>Lecture</td>
+                <td>Sciences</td>
+                <td>Exercice</td>
+                <td>Lecture</td>
+                <td>Révision</td>
+            </tr>
+            <tr>
+                <td>Samedi</td>
+                <td>Révision</td>
+                <td>Lecture</td>
+                <td>Langues</td>
+                <td>Pause</td>
+                <td>Mathématiques</td>
+                <td>Histoire</td>
+                <td>Sciences</td>
+                <td>Exercice</td>
+                <td>Lecture</td>
+            </tr>
+            <tr>
+                <td>Dimanche</td>
+                <td>Sciences</td>
+                <td>Révision</td>
+                <td>Lecture</td>
+                <td>Pause</td>
+                <td>Langues</td>
+                <td>Mathématiques</td>
+                <td>Exercice</td>
+                <td>Histoire</td>
+                <td>Révision</td>
+            </tr>
         </tbody>
     </table>
 </body>

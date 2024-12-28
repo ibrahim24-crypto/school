@@ -5,43 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Himo School Tools</title>
     <style>
+        /* Réinitialisation des styles par défaut */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
             background-color: #f9f9f9;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
+
         h1 {
             text-align: center;
             color: #4CAF50;
+            margin-top: 50px;
+            font-size: 2rem;
         }
+
         .content {
-            margin-top: 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 20px;
+            margin: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
+
         .content p {
             font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
+
+        .content a {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 18px;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .content a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
         footer {
             text-align: center;
-            margin-top: 50px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            margin-top: auto;
+            font-size: 14px;
         }
+
         footer a {
-            color: #4CAF50;
+            color: white;
             text-decoration: none;
         }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
     <h1>Himo School Tools</h1>
 
     <div class="content">
-        <p>Bienvenue dans la page des outils Himo School. Cette page regroupe toutes les ressources utiles pour gérer les choses relative a l'école</p>
-        <p><a href="home.html" style="color: #4CAF50; text-decoration: none;">Générateur des emplois de temps<br> <b><u><i>(pour les élèves)</i></u></b></a></p>
+        <p>Bienvenue dans la page des outils Himo School. Cette page regroupe toutes les ressources utiles pour gérer votre emploi du temps, vos matières et bien plus encore.</p>
+        <p><a href="home.html">Générateur des emploi s de temps<br><i>pour les élèves</i></a></p>
     </div>
 
     <footer>
-        <p>© 2024 Himo school. Tous droits réservés.</p>
+        <p>© 2024 Himo School. Tous droits réservés. <a href="https://www.example.com">En savoir plus</a></p>
     </footer>
 </body>
-  </html>
+</html>

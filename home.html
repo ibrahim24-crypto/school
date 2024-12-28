@@ -38,13 +38,9 @@
         tr:hover {
             background-color: #f1f1f1;
         }
-        details {
-            margin: 20px 0;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .break {
+            background-color: #f9b3b3;
+            font-weight: bold;
         }
         .button-container {
             text-align: center;
@@ -56,19 +52,52 @@
             color: white;
             border: none;
             cursor: pointer;
-            display: none;
+            display: inline-block;
         }
         button:hover {
             background-color: #45a049;
         }
-        .controls label {
-            margin-right: 10px;
-            font-weight: bold;
+        .menu {
+            display: none;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            color: white;
+            padding-top: 20px;
+            z-index: 1000;
         }
-        .controls input[type="range"] {
-            width: 200px;
+        .menu a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
         }
-
+        .menu a:hover {
+            background-color: #575757;
+        }
+        .menu-btn {
+            cursor: pointer;
+            z-index: 9999;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: #333;
+        }
+        .menu-btn.active {
+            display: none;
+        }
+        .close-btn {
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: #fff;
+        }
         .rotate-image {
             width: 150px;
             height: 150px;
@@ -76,25 +105,12 @@
             margin: 0 auto;
             display: block;
         }
-
         @keyframes rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Cacher l'image et afficher le bouton en mode paysage */
         @media (orientation: landscape) {
             .rotate-image {
-                display: none;
-            }
-            .button-container button {
-                display: inline-block;
-            }
-        }
-
-        /* Cacher le bouton en mode portrait */
-        @media (orientation: portrait) {
-            .button-container button {
                 display: none;
             }
         }
@@ -102,30 +118,19 @@
 </head>
 <body>
     <h1>Emploi du Temps - Dynamique</h1>
-
-    <!-- Section des paramètres (cachée) -->
-    <details>
-        <summary>Paramètres des matières</summary>
-        <div class="controls">
-            <label for="arabe">Arabe :</label>
-            <input type="range" id="arabe" min="10" max="100" value="20"> <span id="arabeValue">20%</span><br>
-
-            <label for="francais">Français :</label>
-            <input type="range" id="francais" min="10" max="100" value="20"> <span id="francaisValue">20%</span><br>
-
-            <label for="anglais">Anglais :</label>
-            <input type="range" id="anglais" min="10" max="100" value="20"> <span id="anglaisValue">20%</span><br>
-
-            <label for="maths">Mathématiques :</label>
-            <input type="range" id="maths" min="15" max="100" value="20"> <span id="mathsValue">20%</span><br>
-
-            <label for="sciences">Sciences :</label>
-            <input type="range" id="sciences" min="10" max="100" value="20"> <span id="sciencesValue">20%</span><br>
-
-            <label for="histoire">Histoire :</label>
-            <input type="range" id="histoire" min="5" max="100" value="20"> <span id="histoireValue">20%</span><br>
-        </div>
-    </details>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <div id="menu" class="menu">
+        <div class="close-btn" onclick="toggleMenu()">×</div>
+        <a href="setting.html">
+            <img src="https://i.ibb.co/Gxyys4S/settings-657867-1.png" alt="Paramètres" style="width: 30px; height: 30px;"> Paramètres
+        </a>
+        <a href="about.html">
+            <img src="https://i.ibb.co/JHRQWcM/about-10703243.png" alt="À propos" style="width: 30px; height: 30px;"> À propos
+        </a>
+        <a href="index.html">
+            <img src="https://i.ibb.co/p1T1s1d/square-14034317.png" alt="Accueil" style="width: 30px; height: 30px;"> Accueil
+        </a>
+    </div>
 
     <!-- Image qui tourne en mode portrait -->
     <img class="rotate-image" src="https://i.ibb.co/cXkXKsp/rotate-16622456.png" alt="Rotation Image">
@@ -155,7 +160,7 @@
             <!-- Contenu généré dynamiquement -->
         </tbody>
     </table>
-    <!-- Lien vers la page "À propos" -->
+
     <footer>
         <p style="text-align: center; margin-top: 50px;">
             <a href="about.html" style="color: #4CAF50; text-decoration: none;">À propos</a>
@@ -163,6 +168,14 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const menuBtn = document.querySelector('.menu-btn');
+            menu.classList.toggle('active');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            menuBtn.classList.toggle('active');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
             const subjects = [
@@ -174,12 +187,8 @@
                 { name: "Histoire", min: 5 }
             ];
 
-            // Mise à jour des pourcentages affichés
-            document.querySelectorAll('input[type="range"]').forEach(input => {
-                input.addEventListener('input', function() {
-                    document.getElementById(`${this.id}Value`).textContent = `${this.value}%`;
-                });
-            });
+            // Récupérer les données de localStorage
+            const settings = JSON.parse(localStorage.getItem('settings'));
 
             // Génération du tableau
             function generateTable() {
@@ -201,7 +210,6 @@
                             percentage: Math.max(parseInt(range.value), subject.min)
                         };
                     } else {
-                        console.error(`L'élément pour ${subject.name} n'a pas été trouvé.`);
                         return {
                             name: subject.name,
                             percentage: subject.min // Utiliser la valeur minimale par défaut
@@ -229,22 +237,30 @@
 
                 // Créer les lignes du tableau
                 let slotIndex = 0;
-                days.forEach(day => {
+                days.forEach((day, index) => {
                     const row = document.createElement("tr");
                     const dayCell = document.createElement("td");
                     dayCell.textContent = day;
                     row.appendChild(dayCell);
 
+                    // Appliquer une couleur différente à chaque jour
+                    const colors = ["#FFCCCB", "#FFD700", "#98FB98", "#FFB6C1", "#E0FFFF", "#D3D3D3", "#F0E68C"];
+                    row.style.backgroundColor = colors[index];
+
                     for (let i = 0; i < 9; i++) {
                         const cell = document.createElement("td");
-                        cell.textContent = slots[slotIndex++];
+                        const slot = slots[slotIndex++];
+                        if (slot === "Révision") {
+                            cell.classList.add("break");
+                        }
+                        cell.textContent = slot;
                         row.appendChild(cell);
                     }
 
                     tbody.appendChild(row);
                 });
 
-  // Sauvegarder dans localStorage
+                // Sauvegarder dans localStorage
                 const versionID = new Date().getTime(); // Utilisation de l'heure actuelle pour l'ID unique
                 localStorage.setItem(`version_${versionID}`, JSON.stringify({
                     versionID: versionID,

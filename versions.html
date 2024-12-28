@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Versions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .version-container {
+            margin: 20px;
+        }
+        .version-item {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestion des Versions</h1>
+
+    <div class="version-container" id="versionList">
+        <!-- Liste des versions sauvegardées -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const versionListContainer = document.getElementById('versionList');
+
+            // Charger les versions depuis localStorage
+            function loadVersions() {
+                versionListContainer.innerHTML = ''; // Vider la liste
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('version_')) {
+                        const version = JSON.parse(localStorage.getItem(key));
+                        const versionElement = document.createElement('div');
+                        versionElement.classList.add('version-item');
+                        versionElement.innerHTML = `
+                            <strong>Version ${version.versionID}</strong><br>
+                            Créée le: ${new Date(version.createdAt).toLocaleString()}<br>
+                            <button onclick="loadVersion(${version.versionID})">Charger cette version</button>
+                            <button onclick="deleteVersion(${version.versionID})">Supprimer cette version</button>
+                        `;
+                        versionListContainer.appendChild(versionElement);
+                    }
+                });
+            }
+
+            // Charger le tableau d'une version
+            window.loadVersion = function(versionID) {
+                const versionData = JSON.parse(localStorage.getItem(`version_${versionID}`));
+                if (versionData) {
+                    alert(`Tableau de la version ${versionID} chargé.`);
+                    // Ici vous pouvez ajouter du code pour afficher ou traiter les données de versionData.tableData
+                } else {
+                    alert("Version non trouvée.");
+                }
+            };
+
+            // Supprimer une version
+            window.deleteVersion = function(versionID) {
+                if (confirm("Êtes-vous sûr de vouloir supprimer cette version ?")) {
+                    localStorage.removeItem(`version_${versionID}`);
+                    loadVersions(); // Recharger la liste après suppression
+                }
+            };
+
+            // Initialiser la liste des versions
+            loadVersions();
+        });
+    </script>
+</body>
+</html>

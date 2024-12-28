@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emploi du Temps - Dynamique</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        details {
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .controls label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .controls input[type="range"] {
+            width: 200px;
+        }
+
+        .rotate-image {
+            width: 150px;
+            height: 150px;
+            animation: rotate 3s infinite linear;
+            margin: 0 auto;
+            display: block;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Cacher l'image et afficher le bouton en mode paysage */
+        @media (orientation: landscape) {
+            .rotate-image {
+                display: none;
+            }
+            .button-container button {
+                display: inline-block;
+            }
+        }
+
+        /* Cacher le bouton en mode portrait */
+        @media (orientation: portrait) {
+            .button-container button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Emploi du Temps - Dynamique</h1>
+
+    <!-- Section des paramètres (cachée) -->
+    <details>
+        <summary>Paramètres des matières</summary>
+        <div class="controls">
+            <label for="arabe">Arabe :</label>
+            <input type="range" id="arabe" min="10" max="100" value="20"> <span id="arabeValue">20%</span><br>
+
+            <label for="francais">Français :</label>
+            <input type="range" id="francais" min="10" max="100" value="20"> <span id="francaisValue">20%</span><br>
+
+            <label for="anglais">Anglais :</label>
+            <input type="range" id="anglais" min="10" max="100" value="20"> <span id="anglaisValue">20%</span><br>
+
+            <label for="maths">Mathématiques :</label>
+            <input type="range" id="maths" min="15" max="100" value="20"> <span id="mathsValue">20%</span><br>
+
+            <label for="sciences">Sciences :</label>
+            <input type="range" id="sciences" min="10" max="100" value="20"> <span id="sciencesValue">20%</span><br>
+
+            <label for="histoire">Histoire :</label>
+            <input type="range" id="histoire" min="5" max="100" value="20"> <span id="histoireValue">20%</span><br>
+        </div>
+    </details>
+
+    <!-- Image qui tourne en mode portrait -->
+    <img class="rotate-image" src="https://i.ibb.co/cXkXKsp/rotate-16622456.png" alt="Rotation Image">
+
+    <!-- Bouton pour générer le tableau -->
+    <div class="button-container">
+        <button onclick="generateTable()">Générer le tableau</button>
+    </div>
+
+    <!-- Tableau généré -->
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th>Jour</th>
+                <th>08h - 09h</th>
+                <th>09h - 10h</th>
+                <th>10h - 11h</th>
+                <th>11h - 12h</th>
+                <th>12h - 13h</th>
+                <th>14h - 15h</th>
+                <th>15h - 16h</th>
+                <th>16h - 17h</th>
+                <th>17h - 18h</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Contenu généré dynamiquement -->
+        </tbody>
+    </table>
+    <!-- Lien vers la page "À propos" -->
+    <footer>
+        <p style="text-align: center; margin-top: 50px;">
+            <a href="about.html" style="color: #4CAF50; text-decoration: none;">À propos</a>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+            const subjects = [
+                { name: "Arabe", min: 10 },
+                { name: "Français", min: 10 },
+                { name: "Anglais", min: 10 },
+                { name: "Mathématiques", min: 15 },
+                { name: "Sciences", min: 10 },
+                { name: "Histoire", min: 5 }
+            ];
+
+            // Mise à jour des pourcentages affichés
+            document.querySelectorAll('input[type="range"]').forEach(input => {
+                input.addEventListener('input', function() {
+                    document.getElementById(`${this.id}Value`).textContent = `${this.value}%`;
+                });
+            });
+
+            // Génération du tableau
+            function generateTable() {
+                // Vérifier si l'appareil est en mode paysage
+                if (window.innerHeight > window.innerWidth) {
+                    alert("Veuillez tourner votre appareil en mode paysage pour générer le tableau.");
+                    return;
+                }
+
+                const tbody = document.querySelector("#scheduleTable tbody");
+                tbody.innerHTML = ""; // Vider le tableau
+
+                // Récupérer les pourcentages
+                const percentages = subjects.map(subject => {
+                    const range = document.getElementById(subject.name.toLowerCase());
+                    if (range) {
+                        return {
+                            name: subject.name,
+                            percentage: Math.max(parseInt(range.value), subject.min)
+                        };
+                    } else {
+                        console.error(`L'élément pour ${subject.name} n'a pas été trouvé.`);
+                        return {
+                            name: subject.name,
+                            percentage: subject.min // Utiliser la valeur minimale par défaut
+                        };
+                    }
+                });
+
+                // Répartition des créneaux
+                const totalSlots = 7 * 9; // 7 jours, 9 créneaux par jour
+                const slots = [];
+                percentages.forEach(subject => {
+                    const count = Math.round((subject.percentage / 100) * totalSlots);
+                    for (let i = 0; i < count; i++) {
+                        slots.push(subject.name);
+                    }
+                });
+
+                // Compléter les créneaux restants
+                while (slots.length < totalSlots) {
+                    slots.push("Révision");
+                }
+
+                // Mélanger les créneaux
+                slots.sort(() => Math.random() - 0.5);
+
+                // Créer les lignes du tableau
+                let slotIndex = 0;
+                days.forEach(day => {
+                    const row = document.createElement("tr");
+                    const dayCell = document.createElement("td");
+                    dayCell.textContent = day;
+                    row.appendChild(dayCell);
+
+                    for (let i = 0; i < 9; i++) {
+                        const cell = document.createElement("td");
+                        cell.textContent = slots[slotIndex++];
+                        row.appendChild(cell);
+                    }
+
+                    tbody.appendChild(row);
+                });
+
+  // Sauvegarder dans localStorage
+                const versionID = new Date().getTime(); // Utilisation de l'heure actuelle pour l'ID unique
+                localStorage.setItem(`version_${versionID}`, JSON.stringify({
+                    versionID: versionID,
+                    tableData: slots,
+                    createdAt: new Date().toISOString()
+                }));
+
+                // Afficher un message de confirmation
+                alert("Tableau généré et sauvegardé. Vous pouvez le retrouver dans la liste des versions.");
+            }
+
+            // Attacher l'événement au bouton
+            document.querySelector('button').addEventListener('click', generateTable);
+        });
+    </script>
+</body>
+</html>

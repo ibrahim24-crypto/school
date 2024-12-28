@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres - Emploi du Temps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .setting-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        .setting-group {
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .setting-group label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        .setting-group input[type="color"] {
+            padding: 5px;
+            width: 80px;
+        }
+        .setting-group input[type="range"] {
+            width: 100%;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: #333;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <h1>Paramètres de l'Emploi du Temps</h1>
+
+    <div class="setting-container">
+        <!-- Section des couleurs des jours -->
+        <div class="setting-group">
+            <label for="mondayColor">Lundi:</label>
+            <input type="color" id="mondayColor" value="#FF6347">
+        </div>
+        <div class="setting-group">
+            <label for="tuesdayColor">Mardi:</label>
+            <input type="color" id="tuesdayColor" value="#4682B4">
+        </div>
+        <div class="setting-group">
+            <label for="wednesdayColor">Mercredi:</label>
+            <input type="color" id="wednesdayColor" value="#32CD32">
+        </div>
+        <div class="setting-group">
+            <label for="thursdayColor">Jeudi:</label>
+            <input type="color" id="thursdayColor" value="#FFD700">
+        </div>
+        <div class="setting-group">
+            <label for="fridayColor">Vendredi:</label>
+            <input type="color" id="fridayColor" value="#D2691E">
+        </div>
+        <div class="setting-group">
+            <label for="saturdayColor">Samedi:</label>
+            <input type="color" id="saturdayColor" value="#8A2BE2">
+        </div>
+        <div class="setting-group">
+            <label for="sundayColor">Dimanche:</label>
+            <input type="color" id="sundayColor" value="#FF1493">
+        </div>
+
+        <!-- Section des couleurs des matières -->
+        <div class="setting-group">
+            <label for="arabicColor">Arabe:</label>
+            <input type="color" id="arabicColor" value="#FF6347">
+        </div>
+        <div class="setting-group">
+            <label for="frenchColor">Français:</label>
+            <input type="color" id="frenchColor" value="#4682B4">
+        </div>
+        <div class="setting-group">
+            <label for="englishColor">Anglais:</label>
+            <input type="color" id="englishColor" value="#32CD32">
+        </div>
+        <div class="setting-group">
+            <label for="mathColor">Mathématiques:</label>
+            <input type="color" id="mathColor" value="#FFD700">
+        </div>
+        <div class="setting-group">
+            <label for="scienceColor">Sciences:</label>
+            <input type="color" id="scienceColor" value="#D2691E">
+        </div>
+        <div class="setting-group">
+            <label for="historyColor">Histoire:</label>
+            <input type="color" id="historyColor" value="#8A2BE2">
+        </div>
+
+        <div class="button-container">
+            <button onclick="saveSettings()">Enregistrer les paramètres</button>
+            <button onclick="history.back()">Retour</button>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour enregistrer les paramètres
+        function saveSettings() {
+            const colors = {
+                monday: document.getElementById('mondayColor').value,
+                tuesday: document.getElementById('tuesdayColor').value,
+                wednesday: document.getElementById('wednesdayColor').value,
+                thursday: document.getElementById('thursdayColor').value,
+                friday: document.getElementById('fridayColor').value,
+                saturday: document.getElementById('saturdayColor').value,
+                sunday: document.getElementById('sundayColor').value,
+                arabic: document.getElementById('arabicColor').value,
+                french: document.getElementById('frenchColor').value,
+                english: document.getElementById('englishColor').value,
+                math: document.getElementById('mathColor').value,
+                science: document.getElementById('scienceColor').value,
+                history: document.getElementById('historyColor').value,
+            };
+
+            // Enregistrer dans le localStorage
+            localStorage.setItem('colors', JSON.stringify(colors));
+
+            // Confirmation
+            alert("Les paramètres ont été enregistrés.");
+        }
+
+        // Fonction pour ouvrir/fermer le menu
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            const menuBtn = document.querySelector('.menu-btn');
+            menu.classList.toggle('active');
+            menu.style.display = menu.classList.contains('active') ? 'block' : 'none';
+            menuBtn.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

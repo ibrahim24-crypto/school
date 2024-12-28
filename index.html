@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emploi du Temps - Révisions</title>
+    <title>Emploi du Temps - Dynamique</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,11 +38,71 @@
         tr:hover {
             background-color: #f1f1f1;
         }
+        details {
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .controls label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .controls input[type="range"] {
+            width: 200px;
+        }
     </style>
 </head>
 <body>
-    <h1>Emploi du Temps - Révisions</h1>
-    <table>
+    <h1>Emploi du Temps - Dynamique</h1>
+
+    <!-- Section des paramètres (cachée) -->
+    <details>
+        <summary>Paramètres des matières</summary>
+        <div class="controls">
+            <label for="arabe">Arabe :</label>
+            <input type="range" id="arabe" min="10" max="100" value="20"> <span id="arabeValue">20%</span><br>
+
+            <label for="francais">Français :</label>
+            <input type="range" id="francais" min="10" max="100" value="20"> <span id="francaisValue">20%</span><br>
+
+            <label for="anglais">Anglais :</label>
+            <input type="range" id="anglais" min="10" max="100" value="20"> <span id="anglaisValue">20%</span><br>
+
+            <label for="maths">Mathématiques :</label>
+            <input type="range" id="maths" min="15" max="100" value="20"> <span id="mathsValue">20%</span><br>
+
+            <label for="sciences">Sciences :</label>
+            <input type="range" id="sciences" min="10" max="100" value="20"> <span id="sciencesValue">20%</span><br>
+
+            <label for="histoire">Histoire :</label>
+            <input type="range" id="histoire" min="5" max="100" value="20"> <span id="histoireValue">20%</span><br>
+        </div>
+    </details>
+
+    <div class="button-container">
+        <button onclick="generateTable()">Générer le tableau</button>
+        <button onclick="restoreTable()">Retour à l'ancienne version</button>
+    </div>
+
+    <!-- Tableau généré -->
+    <table id="scheduleTable">
         <thead>
             <tr>
                 <th>Jour</th>
@@ -58,91 +118,100 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Lundi</td>
-                <td>Maths</td>
-                <td>Lecture</td>
-                <td>Exercice</td>
-                <td>Pause</td>
-                <td>Sciences</td>
-                <td>Histoire</td>
-                <td>Révision</td>
-                <td>Langues</td>
-                <td>Récapitulatif</td>
-            </tr>
-            <tr>
-                <td>Mardi</td>
-                <td>Langues</td>
-                <td>Exercice</td>
-                <td>Pause</td>
-                <td>Lecture</td>
-                <td>Sciences</td>
-                <td>Révision</td>
-                <td>Histoire</td>
-                <td>Mathématiques</td>
-                <td>Langues</td>
-            </tr>
-            <tr>
-                <td>Mercredi</td>
-                <td>Exercice</td>
-                <td>Lecture</td>
-                <td>Sciences</td>
-                <td>Pause</td>
-                <td>Histoire</td>
-                <td>Langues</td>
-                <td>Révision</td>
-                <td>Mathématiques</td>
-                <td>Lecture</td>
-            </tr>
-            <tr>
-                <td>Jeudi</td>
-                <td>Lecture</td>
-                <td>Sciences</td>
-                <td>Mathématiques</td>
-                <td>Pause</td>
-                <td>Exercice</td>
-                <td>Langues</td>
-                <td>Histoire</td>
-                <td>Révision</td>
-                <td>Sciences</td>
-            </tr>
-            <tr>
-                <td>Vendredi</td>
-                <td>Histoire</td>
-                <td>Mathématiques</td>
-                <td>Langues</td>
-                <td>Pause</td>
-                <td>Lecture</td>
-                <td>Sciences</td>
-                <td>Exercice</td>
-                <td>Lecture</td>
-                <td>Révision</td>
-            </tr>
-            <tr>
-                <td>Samedi</td>
-                <td>Révision</td>
-                <td>Lecture</td>
-                <td>Langues</td>
-                <td>Pause</td>
-                <td>Mathématiques</td>
-                <td>Histoire</td>
-                <td>Sciences</td>
-                <td>Exercice</td>
-                <td>Lecture</td>
-            </tr>
-            <tr>
-                <td>Dimanche</td>
-                <td>Sciences</td>
-                <td>Révision</td>
-                <td>Lecture</td>
-                <td>Pause</td>
-                <td>Langues</td>
-                <td>Mathématiques</td>
-                <td>Exercice</td>
-                <td>Histoire</td>
-                <td>Révision</td>
-            </tr>
+            <!-- Contenu généré dynamiquement -->
         </tbody>
     </table>
+
+    <script>
+        const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+        const subjects = [
+            { name: "Arabe", min: 10 },
+            { name: "Français", min: 10 },
+            { name: "Anglais", min: 10 },
+            { name: "Mathématiques", min: 15 },
+            { name: "Sciences", min: 10 },
+            { name: "Histoire", min: 5 }
+        ];
+        let previousTable = null;
+
+        // Mise à jour des pourcentages affichés
+        document.querySelectorAll('input[type="range"]').forEach(input => {
+            input.addEventListener('input', function() {
+                document.getElementById(`${this.id}Value`).textContent = `${this.value}%`;
+            });
+        });
+
+        // Génération du tableau
+        function generateTable() {
+            const percentages = subjects.map(subject => {
+                const range = document.getElementById(subject.name.toLowerCase());
+                return {
+                    name: subject.name,
+                    percentage: Math.max(parseInt(range.value), subject.min)
+                };
+            });
+
+            // Sauvegarde de la version actuelle
+            previousTable = document.getElementById('scheduleTable').innerHTML;
+
+            // Répartition basée sur les pourcentages
+            const totalSlots = 7 * 9; // 7 jours, 9 créneaux par jour
+            const slots = [];
+            percentages.forEach(subject => {
+                const count = Math.round((subject.percentage / 100) * totalSlots);
+                for (let i = 0; i < count; i++) {
+                    slots.push(subject.name);
+                }
+            });
+
+            // Compléter les créneaux restants
+            while (slots.length < totalSlots) {
+                slots.push("Révision");
+            }
+
+            // Mélanger les créneaux pour diversifier
+            slots.sort(() => Math.random() - 0.5);
+
+            // Génération du tableau
+            const tbody = document.querySelector("#scheduleTable tbody");
+            tbody.innerHTML = "";
+            let slotIndex = 0;
+
+            days.forEach(day => {
+                const row = document.createElement("tr");
+                const dayCell = document.createElement("td");
+                dayCell.textContent = day;
+                row.appendChild(dayCell);
+
+                for (let i = 0; i < 9; i++) {
+                    const cell = document.createElement("td");
+                    cell.textContent = slots[slotIndex++];
+                    row.appendChild(cell);
+                }
+
+                tbody.appendChild(row);
+            });
+
+            // Sauvegarder la version actuelle dans localStorage
+            localStorage.setItem("currentTable", document.getElementById("scheduleTable").innerHTML);
+        }
+
+        // Restaurer l'ancienne version
+        function restoreTable() {
+            if (previousTable) {
+                document.getElementById('scheduleTable').innerHTML = previousTable;
+            } else {
+                alert("Aucune ancienne version disponible !");
+            }
+        }
+
+        // Charger la version enregistrée
+        window.onload = function() {
+            const savedTable = localStorage.getItem("currentTable");
+            if (savedTable) {
+                document.getElementById("scheduleTable").innerHTML = savedTable;
+            }
+        };
+    </script>
 </body>
 </html>
